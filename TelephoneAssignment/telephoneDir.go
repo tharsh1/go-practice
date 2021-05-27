@@ -1,6 +1,12 @@
 package main
 
-import "fmt"
+import (
+	"encoding/csv"
+	"fmt"
+	"log"
+	"os"
+	"strconv"
+)
 
 type telephoneRecord struct {
 	contact int
@@ -109,4 +115,35 @@ func findDuplicates() {
 			}
 		}
 	}
+}
+
+func createCSV() {
+	csvFile, err := os.Create("./TelephoneDirectory.csv")
+	if err != nil {
+		log.Fatalln("Error occured while creating file:", err)
+	}
+
+	writer := csv.NewWriter(csvFile)
+	err = writer.Write([]string{"Contact", "Name", "Address"})
+	if err != nil {
+		log.Fatalln("Error occured while writing to a file:", err)
+	}
+	writer.Flush()
+	err = writer.Error()
+	if err != nil {
+		log.Fatalln("Error occured while writing to the file:", err)
+	}
+
+	for _, teleRecord := range telephoneDir {
+		err = writer.Write([]string{strconv.Itoa(teleRecord.contact), teleRecord.name, teleRecord.address})
+		if err != nil {
+			log.Fatalln("Error occured while writing to a file:", err)
+		}
+		writer.Flush()
+		err = writer.Error()
+		if err != nil {
+			log.Fatalln("Error occured while writing to the file:", err)
+		}
+	}
+	fmt.Println("CSV file created successfully")
 }

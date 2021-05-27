@@ -11,7 +11,7 @@ func main() {
 	var name string
 	var address string
 	for cntnu == 1 {
-		fmt.Println("1. Add, 2. Delete, 3. Search, 4. Update, 5. Display, 6. Find Duplicates\nEnter your coice: ")
+		fmt.Println("1. Add, 2. Delete, 3. Search, 4. Update, 5. Display, 6. Find Duplicates, 7. Create CSV\nEnter your coice: ")
 		fmt.Scanln(&choice)
 		switch choice {
 		case 1:
@@ -38,6 +38,8 @@ func main() {
 			displayRecord()
 		case 6:
 			findDuplicates()
+		case 7:
+			createCSV()
 		default:
 			fmt.Println("Invalid input")
 		}
