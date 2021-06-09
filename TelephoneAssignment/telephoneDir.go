@@ -10,30 +10,30 @@ import (
 )
 
 type telephoneRecord struct {
-	contact int
-	name    string
-	address string
+	Contact int    `json:"Contact"`
+	Name    string `json:"Name"`
+	Address string `json:"Address"`
 }
 
 var telephoneDir []telephoneRecord
 
-func addRecord(teleNum int, name string, address string) {
+func addRecord(teleNum int, Name string, Address string) {
 	//Accept details and add to slice
 	telephoneDir = append(telephoneDir, telephoneRecord{
-		contact: teleNum,
-		name:    name,
-		address: address,
+		Contact: teleNum,
+		Name:    Name,
+		Address: Address,
 	})
 	fmt.Println("Telephone record added succeddfully")
 	createCSV()
 }
 
 func searchRecord(teleNum int) {
-	//Linearly search in slice for the contacts which match teleNum
+	//Linearly search in slice for the Contacts which match teleNum
 	found := false
 	for _, teleRecord := range telephoneDir {
-		if teleRecord.contact == teleNum {
-			fmt.Println("Telephone Number:", teleRecord.contact, ", Name:", teleRecord.name, ", Address:", teleRecord.address)
+		if teleRecord.Contact == teleNum {
+			fmt.Println("Telephone Number:", teleRecord.Contact, ", Name:", teleRecord.Name, ", Address:", teleRecord.Address)
 			found = true
 		}
 	}
@@ -43,12 +43,12 @@ func searchRecord(teleNum int) {
 }
 
 func deleteRecord(teleNum int) {
-	//To store all the records having contact as teleNum
+	//To store all the records having Contact as teleNum
 	findings := []telephoneRecord{}
 	//To store indices of the found duplicate records
 	findingsIdx := []int{}
 	for idx, teleRecord := range telephoneDir {
-		if teleRecord.contact == teleNum {
+		if teleRecord.Contact == teleNum {
 			findings = append(findings, teleRecord)
 			findingsIdx = append(findingsIdx, idx)
 		}
@@ -61,7 +61,7 @@ func deleteRecord(teleNum int) {
 		//Ask for which specific record should be deleted
 		var delIndex int
 		for i := 0; i < len(findings); i++ {
-			fmt.Println("Index:", findingsIdx[i], "Telephone Number:", findings[i].contact, ", Name:", findings[i].name, ", Address:", findings[i].address)
+			fmt.Println("Index:", findingsIdx[i], "Telephone Number:", findings[i].Contact, ", Name:", findings[i].Name, ", Address:", findings[i].Address)
 		}
 		fmt.Println("Following are the matched findings, Enter the index of record to be deleted: ")
 		fmt.Scanln(&delIndex)
@@ -72,17 +72,17 @@ func deleteRecord(teleNum int) {
 
 func displayRecord() {
 	for _, teleRecord := range telephoneDir {
-		fmt.Println("Telephone Number:", teleRecord.contact, ", Name:", teleRecord.name, ", Address:", teleRecord.address)
+		fmt.Println("Telephone Number:", teleRecord.Contact, ", Name:", teleRecord.Name, ", Address:", teleRecord.Address)
 	}
 }
 
 func updateRecord(teleNum int) {
-	//To store all the records having contact as teleNum
+	//To store all the records having Contact as teleNum
 	findings := []telephoneRecord{}
 	//To store indices of the found duplicate records
 	findingsIdx := []int{}
 	for idx, teleRecord := range telephoneDir {
-		if teleRecord.contact == teleNum {
+		if teleRecord.Contact == teleNum {
 			findings = append(findings, teleRecord)
 			findingsIdx = append(findingsIdx, idx)
 		}
@@ -90,41 +90,41 @@ func updateRecord(teleNum int) {
 	if len(findings) == 0 {
 		fmt.Println("Telephone number not found in directory")
 	} else if len(findings) == 1 {
-		fmt.Println("Enter the updated contact number: ")
-		fmt.Scanln(&telephoneDir[findingsIdx[0]].contact)
-		fmt.Println("Enter the updated name: ")
-		fmt.Scanln(&telephoneDir[findingsIdx[0]].name)
-		fmt.Println("Enter the updated address: ")
-		fmt.Scanln(&telephoneDir[findingsIdx[0]].address)
+		fmt.Println("Enter the updated Contact number: ")
+		fmt.Scanln(&telephoneDir[findingsIdx[0]].Contact)
+		fmt.Println("Enter the updated Name: ")
+		fmt.Scanln(&telephoneDir[findingsIdx[0]].Name)
+		fmt.Println("Enter the updated Address: ")
+		fmt.Scanln(&telephoneDir[findingsIdx[0]].Address)
 	} else if len(findings) > 1 {
 		//Ask for which specific record should be updated
 		var updateIndex int
 		for i := 0; i < len(findings); i++ {
-			fmt.Println("Index:", findingsIdx[i], "Telephone Number:", findings[i].contact, ", Name:", findings[i].name, ", Address:", findings[i].address)
+			fmt.Println("Index:", findingsIdx[i], "Telephone Number:", findings[i].Contact, ", Name:", findings[i].Name, ", Address:", findings[i].Address)
 		}
 		fmt.Println("Following are the matched findings, Enter the index of record to be updated: ")
 		fmt.Scanln(&updateIndex)
-		fmt.Println("Enter the updated contact number: ")
-		fmt.Scanln(&telephoneDir[updateIndex].contact)
-		fmt.Println("Enter the updated name: ")
-		fmt.Scanln(&telephoneDir[updateIndex].name)
-		fmt.Println("Enter the updated address: ")
-		fmt.Scanln(&telephoneDir[updateIndex].address)
+		fmt.Println("Enter the updated Contact number: ")
+		fmt.Scanln(&telephoneDir[updateIndex].Contact)
+		fmt.Println("Enter the updated Name: ")
+		fmt.Scanln(&telephoneDir[updateIndex].Name)
+		fmt.Println("Enter the updated Address: ")
+		fmt.Scanln(&telephoneDir[updateIndex].Address)
 	}
 	createCSV()
 }
 
 func findDuplicates() {
-	//To store contact no. as key and associated duplicate record's indices as value
+	//To store Contact no. as key and associated duplicate record's indices as value
 	duplicates := map[int][]int{}
 	for idx, teleRecord := range telephoneDir {
-		duplicates[teleRecord.contact] = append(duplicates[teleRecord.contact], idx)
+		duplicates[teleRecord.Contact] = append(duplicates[teleRecord.Contact], idx)
 	}
 	//Print all the items having multiple indices in the value
 	for _, indexs := range duplicates {
 		if len(indexs) > 1 {
 			for _, idx := range indexs {
-				fmt.Println("Telephone Number:", telephoneDir[idx].contact, ", Name:", telephoneDir[idx].name, ", Address:", telephoneDir[idx].address)
+				fmt.Println("Telephone Number:", telephoneDir[idx].Contact, ", Name:", telephoneDir[idx].Name, ", Address:", telephoneDir[idx].Address)
 			}
 		}
 	}
@@ -149,7 +149,7 @@ func createCSV() {
 	}
 
 	for _, teleRecord := range telephoneDir {
-		err = writer.Write([]string{strconv.Itoa(teleRecord.contact), teleRecord.name, teleRecord.address})
+		err = writer.Write([]string{strconv.Itoa(teleRecord.Contact), teleRecord.Name, teleRecord.Address})
 		if err != nil {
 			log.Fatalln("Error occured while writing to a file:", err)
 		}
@@ -183,11 +183,11 @@ func loadCSV() {
 		} else if err != nil {
 			log.Fatalln("Error occured while reading:", err)
 		}
-		contactInt, _ := strconv.Atoi(record[0])
+		ContactInt, _ := strconv.Atoi(record[0])
 		telephoneDir = append(telephoneDir, telephoneRecord{
-			contact: contactInt,
-			name:    record[1],
-			address: record[2],
+			Contact: ContactInt,
+			Name:    record[1],
+			Address: record[2],
 		})
 	}
 }
